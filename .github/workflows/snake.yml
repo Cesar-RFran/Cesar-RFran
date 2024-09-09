@@ -1,0 +1,28 @@
+name: Generar Animación de Snake
+
+on:
+  schedule:
+    - cron: "0 0 * * *"  # Se ejecuta diariamente a medianoche UTC
+  workflow_dispatch: # Permite la ejecución manual de la acción
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Generar Animación de Snake
+        uses: Platane/snk@v2.0.0
+        with:
+          github_user_name: Cesar-RFran # Cambia esto por tu nombre de usuario de GitHub
+          output: dist/snake.svg
+
+      - name: Subir la Animación de Snake a la rama de salida
+        uses: crazy-max/ghaction-github-pages@v3
+        with:
+          target_branch: output
+          build_dir: dist
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
